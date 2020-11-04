@@ -1,3 +1,4 @@
+const passport = require('passport');
 const User = require('../models/User');
 
 // Register a user
@@ -35,10 +36,28 @@ const registerPost = async (req, res) => {
 };
 
 // Login to server
-const loginPost = (req, res) => {};
+const loginPost = (req, res, next) => {
+	passport.authenticate('local', (err, user, info) => {
+		if (err) return next(err);
+		if (!user) return res.status(400).json(info);
+		req.login(user, (error) => {
+			if (error) return next(error);
+			res.json({
+				success: true,
+				message: 'User logged in successfully',
+			});
+		});
+	})(req, res, next);
+};
 
 // Logout to server
-const logoutGet = (req, res) => {};
+const logoutGet = (req, res) => {
+	req.logout();
+	res.json({
+		success: true,
+		message: 'User logged out successfully',
+	});
+};
 
 // Get all users
 const usersGet = async (req, res) => {

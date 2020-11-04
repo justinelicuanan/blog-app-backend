@@ -13,7 +13,7 @@ const router = express.Router();
 // Routes
 router.post('/register', registerPost);
 router.post('/login', loginPost);
-router.get('/logout', logoutGet);
+router.get('/logout', require('../middlewares/ensureAuth'), logoutGet);
 router.get('/', usersGet);
 router.delete('/delete/:username', deleteDelete);
 
