@@ -1,8 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
+// const MongoStore = require("connect-mongo")(session)
 
 // Inits
 require('dotenv').config();
+require('./middlewares/passport');
 const app = express();
 
 // Connect to database
@@ -27,6 +31,20 @@ mongoose
 
 // Middlewares
 app.use(express.json());
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET.split(','),
+		cookie: {
+			maxAge: 3600000,
+			httpOnly: true,
+		},
+		resave: false,
+		saveUninitialized: false,
+		// store: new MongoStore({ mongooseConnection: mongoose.connection })
+	})
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use('/users', require('./routes/users'));
