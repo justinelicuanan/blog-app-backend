@@ -11,9 +11,12 @@ const registerPost = async (req, res) => {
 			username,
 			password,
 		});
-		res.status(201).json({
-			success: true,
-			message: 'User created successfully',
+		req.login(user, (err) => {
+			if (err) return next(err);
+			res.status(201).json({
+				success: true,
+				message: 'User created successfully',
+			});
 		});
 	} catch (error) {
 		let err = {};
