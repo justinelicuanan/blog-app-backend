@@ -1,5 +1,6 @@
 const Post = require('../models/Post');
 
+// Verify if user is authenticated
 const verifyAuth = (req, res, next) => {
 	if (!req.isAuthenticated())
 		return res.status(400).json({
@@ -9,6 +10,13 @@ const verifyAuth = (req, res, next) => {
 	next();
 };
 
+// Don't let user in if already authenticated
+const verifyUnauth = (req, res, next) => {};
+
+// Verify the user
+const verifyUser = (req, res, next) => {};
+
+// Verify post author
 const verifyAuthor = async (req, res, next) => {
 	const post = await Post.findOne({ slug: req.params.slug });
 	if (!post)
@@ -25,5 +33,7 @@ const verifyAuthor = async (req, res, next) => {
 
 module.exports = {
 	verifyAuth,
+	verifyUnauth,
+	verifyUser,
 	verifyAuthor,
 };

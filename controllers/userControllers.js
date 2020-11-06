@@ -62,6 +62,9 @@ const logoutGet = (req, res) => {
 	});
 };
 
+// Get single user
+const userGet = (req, res) => {};
+
 // Get all users
 const usersGet = async (req, res) => {
 	try {
@@ -71,6 +74,9 @@ const usersGet = async (req, res) => {
 		res.status(400).json({ err });
 	}
 };
+
+// Update a user
+const updatePatch = (req, res) => {};
 
 // Delete a user
 const deleteDelete = async (req, res) => {
@@ -94,6 +100,8 @@ module.exports = {
 	registerPost,
 	loginPost,
 	logoutGet,
+	userGet,
 	usersGet,
+	updatePatch,
 	deleteDelete,
 };
