@@ -1,3 +1,4 @@
+const User = require('../models/User');
 const Post = require('../models/Post');
 
 // Create a post
@@ -40,6 +41,22 @@ const postGet = async (req, res) => {
 				message: 'Post does not exist',
 			});
 		res.json(post);
+	} catch (err) {
+		res.status(400).json({ err });
+	}
+};
+
+// Get all posts of an author
+const authorGet = async (req, res) => {
+	try {
+		const user = await User.findOne({ username: req.params.username });
+		if (!user)
+			return res.status(400).json({
+				err: true,
+				message: 'Author does not exist',
+			});
+		const posts = await Post.find({ userId: user._id });
+		res.json(posts);
 	} catch (err) {
 		res.status(400).json({ err });
 	}
@@ -109,6 +126,7 @@ const deleteDelete = async (req, res) => {
 module.exports = {
 	createPost,
 	postGet,
+	authorGet,
 	postsGet,
 	updatePatch,
 	deleteDelete,
