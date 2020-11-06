@@ -56,7 +56,37 @@ const postsGet = async (req, res) => {
 };
 
 // Update a post
-const updatePatch = (req, res) => {};
+const updatePatch = async (req, res) => {
+	const patch = {
+		title: req.body.title,
+		slug: req.body.slug,
+		body: req.body.body,
+	};
+	try {
+		await Post.updateOne(
+			{ slug: req.params.slug },
+			{ $set: patch },
+			{ runValidators: true }
+		);
+		res.status(200).json({
+			success: true,
+			message: 'Post updated successfully',
+		});
+	} catch (error) {
+		let err = {};
+		if (error._message === 'Validation failed') {
+			Object.keys(error.errors).forEach((errPath) => {
+				err[errPath] = error.errors[errPath].message;
+			});
+			return res.status(400).json({ err });
+		}
+		if (error.code === 11000 && error.keyPattern.slug) {
+			err.slug = 'Slug is already in used';
+			return res.status(400).json({ err });
+		}
+		res.status(400).json({ err: error });
+	}
+};
 
 // Delete a post
 const deleteDelete = async (req, res) => {

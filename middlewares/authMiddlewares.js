@@ -16,7 +16,7 @@ const verifyAuthor = async (req, res, next) => {
 			err: true,
 			message: 'Post does not exist',
 		});
-	if (req.user._id === post.userId || req.user.role === 1) return next();
+	if (post.userId.equals(req.user._id) || req.user.role === 1) return next();
 	res.status(401).json({
 		err: true,
 		message: "You don't have permission to view this resource",
