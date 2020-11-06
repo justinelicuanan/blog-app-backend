@@ -5,6 +5,10 @@ const bcrypt = require('bcryptjs');
 // Create user schema
 const UserSchema = mongoose.Schema(
 	{
+		role: {
+			type: Number,
+			default: 4,
+		},
 		name: {
 			type: String,
 			trim: true,

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { isSlug } = require('validator');
 
-// Create user schema
+// Create post schema
 const PostSchema = mongoose.Schema(
 	{
 		title: {
@@ -12,7 +12,7 @@ const PostSchema = mongoose.Schema(
 		slug: {
 			type: String,
 			lowercase: true,
-			validate: [isSlug, 'Slug must only contain letters, numbers, and hypens'],
+			validate: [isSlug, 'Slug is invalid'],
 			unique: true,
 			required: [true, 'Slug field is required'],
 		},

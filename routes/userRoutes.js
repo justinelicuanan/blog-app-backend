@@ -5,7 +5,8 @@ const {
 	logoutGet,
 	usersGet,
 	deleteDelete,
-} = require('../controllers/users');
+} = require('../controllers/userControllers');
+const { verifyAuth } = require('../middlewares/authMiddlewares');
 
 // Inits
 const router = express.Router();
@@ -13,7 +14,7 @@ const router = express.Router();
 // Routes
 router.post('/register', registerPost);
 router.post('/login', loginPost);
-router.get('/logout', require('../middlewares/ensureAuth'), logoutGet);
+router.get('/logout', verifyAuth, logoutGet);
 router.get('/', usersGet);
 router.delete('/delete/:username', deleteDelete);
 

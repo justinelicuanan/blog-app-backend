@@ -48,5 +48,5 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Routes
-app.use('/users', require('./routes/users'));
-app.use('/posts', require('./routes/posts'));
+app.use('/users', require('./routes/userRoutes'));
+app.use('/posts', require('./routes/postRoutes'));
