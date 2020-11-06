@@ -34,6 +34,7 @@ app.use(express.json());
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET.split(','),
+		name: 'blogApp.sid',
 		cookie: {
 			maxAge: 3600000,
 			httpOnly: true,

@@ -31,7 +31,19 @@ const createPost = async (req, res) => {
 };
 
 // Get single post
-const postGet = (req, res) => {};
+const postGet = async (req, res) => {
+	try {
+		const post = await Post.findOne({ slug: req.params.slug });
+		if (!post)
+			return res.status(400).json({
+				err: true,
+				message: 'Post does not exist',
+			});
+		res.json(post);
+	} catch (err) {
+		res.status(400).json({ err });
+	}
+};
 
 // Get all posts
 const postsGet = async (req, res) => {
