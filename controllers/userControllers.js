@@ -63,12 +63,28 @@ const logoutGet = (req, res) => {
 };
 
 // Get single user
-const userGet = (req, res) => {};
+const userGet = async (req, res) => {
+	try {
+		const user = await User.findOne({ username: req.params.username }).select(
+			'-role -email -password -createdAt -updatedAt -__v'
+		);
+		if (!user)
+			return res.status(400).json({
+				err: true,
+				message: 'User does not exist',
+			});
+		res.json(user);
+	} catch (err) {
+		res.status(400).json({ err });
+	}
+};
 
 // Get all users
 const usersGet = async (req, res) => {
 	try {
-		const users = await User.find();
+		const users = await User.find().select(
+			'-role -email -password -createdAt -updatedAt -__v'
+		);
 		res.json(users);
 	} catch (err) {
 		res.status(400).json({ err });

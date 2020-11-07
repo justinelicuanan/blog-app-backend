@@ -34,7 +34,9 @@ const createPost = async (req, res) => {
 // Get single post
 const postGet = async (req, res) => {
 	try {
-		const post = await Post.findOne({ slug: req.params.slug });
+		const post = await Post.findOne({ slug: req.params.slug }).select(
+			'-_id -__v'
+		);
 		if (!post)
 			return res.status(400).json({
 				err: true,
@@ -55,7 +57,7 @@ const authorGet = async (req, res) => {
 				err: true,
 				message: 'Author does not exist',
 			});
-		const posts = await Post.find({ userId: user._id });
+		const posts = await Post.find({ userId: user._id }).select('-_id -__v');
 		res.json(posts);
 	} catch (err) {
 		res.status(400).json({ err });
@@ -65,7 +67,7 @@ const authorGet = async (req, res) => {
 // Get all posts
 const postsGet = async (req, res) => {
 	try {
-		const posts = await Post.find();
+		const posts = await Post.find().select('-_id -__v');
 		res.json(posts);
 	} catch (err) {
 		res.status(400).json({ err });
