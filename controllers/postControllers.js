@@ -76,10 +76,11 @@ const postsGet = async (req, res) => {
 
 // Update a post
 const updatePatch = async (req, res) => {
+	const { title, slug, body } = req.body;
 	const patch = {
-		title: req.body.title,
-		slug: req.body.slug,
-		body: req.body.body,
+		title,
+		slug,
+		body,
 	};
 	try {
 		await Post.updateOne(

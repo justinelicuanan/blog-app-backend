@@ -62,6 +62,17 @@ const logoutGet = (req, res) => {
 	});
 };
 
+// Get profile of current user
+const profileGet = (req, res) => {
+	const { _id, name, email, username } = req.user;
+	res.json({
+		_id,
+		name,
+		email,
+		username,
+	});
+};
+
 // Get single user
 const userGet = async (req, res) => {
 	try {
@@ -93,10 +104,11 @@ const usersGet = async (req, res) => {
 
 // Update a user
 const updatePatch = async (req, res) => {
+	const { name, email, username } = req.body;
 	const patch = {
-		name: req.body.name,
-		email: req.body.email,
-		username: req.body.username,
+		name,
+		email,
+		username,
 	};
 	try {
 		const user = await User.updateOne(
@@ -155,6 +167,7 @@ module.exports = {
 	registerPost,
 	loginPost,
 	logoutGet,
+	profileGet,
 	userGet,
 	usersGet,
 	updatePatch,

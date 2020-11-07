@@ -3,6 +3,7 @@ const {
 	registerPost,
 	loginPost,
 	logoutGet,
+	profileGet,
 	userGet,
 	usersGet,
 	updatePatch,
@@ -21,6 +22,7 @@ const router = express.Router();
 router.post('/register', verifyUnauth, registerPost);
 router.post('/login', verifyUnauth, loginPost);
 router.get('/logout', verifyAuth, logoutGet);
+router.get('/profile', verifyAuth, profileGet);
 router.get('/:username', userGet);
 router.get('/', usersGet);
 router.patch('/update/:username', verifyAuth, verifyUser, updatePatch);
