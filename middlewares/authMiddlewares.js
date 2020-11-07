@@ -11,10 +11,24 @@ const verifyAuth = (req, res, next) => {
 };
 
 // Don't let user in if already authenticated
-const verifyUnauth = (req, res, next) => {};
+const verifyUnauth = (req, res, next) => {
+	if (req.isAuthenticated())
+		return res.status(400).json({
+			err: true,
+			message: "You're already logged in",
+		});
+	next();
+};
 
 // Verify the user
-const verifyUser = (req, res, next) => {};
+const verifyUser = async (req, res, next) => {
+	if (req.user.username === req.params.username || req.user.role === 1)
+		return next();
+	res.status(401).json({
+		err: true,
+		message: "You don't have permission to view this resource",
+	});
+};
 
 // Verify post author
 const verifyAuthor = async (req, res, next) => {

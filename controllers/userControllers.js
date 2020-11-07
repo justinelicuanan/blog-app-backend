@@ -31,7 +31,7 @@ const registerPost = async (req, res) => {
 			return res.status(400).json({ err });
 		}
 		if (error.code === 11000 && error.keyPattern.username) {
-			err.username = 'Username is already registered';
+			err.username = 'Username is already taken';
 			return res.status(400).json({ err });
 		}
 		res.status(400).json({ err: error });
@@ -92,7 +92,46 @@ const usersGet = async (req, res) => {
 };
 
 // Update a user
-const updatePatch = (req, res) => {};
+const updatePatch = async (req, res) => {
+	const patch = {
+		name: req.body.name,
+		email: req.body.email,
+		username: req.body.username,
+	};
+	try {
+		const user = await User.updateOne(
+			{ username: req.params.username },
+			{ $set: patch },
+			{ runValidators: true }
+		);
+		if (!user.n)
+			return res.status(400).json({
+				err: true,
+				message: 'User does not exist',
+			});
+		res.status(200).json({
+			success: true,
+			message: 'User updated successfully',
+		});
+	} catch (error) {
+		let err = {};
+		if (error._message === 'Validation failed') {
+			Object.keys(error.errors).forEach((errPath) => {
+				err[errPath] = error.errors[errPath].message;
+			});
+			return res.status(400).json({ err });
+		}
+		if (error.code === 11000 && error.keyPattern.email) {
+			err.email = 'Email is already registered';
+			return res.status(400).json({ err });
+		}
+		if (error.code === 11000 && error.keyPattern.username) {
+			err.username = 'Username is already taken';
+			return res.status(400).json({ err });
+		}
+		res.status(400).json({ err: error });
+	}
+};
 
 // Delete a user
 const deleteDelete = async (req, res) => {
