@@ -1,7 +1,7 @@
 {
-	"name": "blog-app-backend",
+	"name": "openblog-backend",
 	"version": "1.0.0",
-	"description": "an awesome backend for blog app",
+	"description": "a simple, yet awesome blog backend",
 	"main": "app.js",
 	"scripts": {
 		"dev": "nodemon app",
