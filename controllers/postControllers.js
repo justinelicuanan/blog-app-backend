@@ -10,6 +10,7 @@ const createPost = async (req, res) => {
 			slug,
 			body,
 			userId: req.user._id,
+			authorName: req.user.name,
 		});
 		res.status(201).json({
 			success: true,

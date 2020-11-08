@@ -104,9 +104,8 @@ const usersGet = async (req, res) => {
 
 // Update a user
 const updatePatch = async (req, res) => {
-	const { name, email, username } = req.body;
+	const { email, username } = req.body;
 	const patch = {
-		name,
 		email,
 		username,
 	};

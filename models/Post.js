@@ -21,6 +21,7 @@ const PostSchema = mongoose.Schema(
 			required: [true, 'Body field is required'],
 		},
 		userId: mongoose.ObjectId,
+		authorName: String,
 	},
 	{ timestamps: true }
 );
